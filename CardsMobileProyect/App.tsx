@@ -6,37 +6,38 @@
  */
 
 import React from 'react';
-import {SafeAreaView, StyleSheet, useColorScheme} from 'react-native';
+import {SafeAreaView, useColorScheme} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import LaunchScreen from './src/screens/LaunchScreen';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import LoadingScreen from './src/screens/LoadingScreen';
+const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    backgroundColor: isDarkMode ? Colors.darker : 'lightblue',
   };
 
-  return <SafeAreaView style={backgroundStyle}></SafeAreaView>;
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{animation: 'fade', headerShown: false}}>
+        <Stack.Screen
+          name="Launch"
+          component={LaunchScreen}
+          options={{animation: 'fade'}}
+        />
+        <Stack.Screen
+          name="Loading"
+          component={LoadingScreen}
+          options={{animation: 'fade', animationDuration: 1000}}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
